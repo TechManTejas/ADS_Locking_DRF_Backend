@@ -21,13 +21,14 @@ from rest_framework.routers import DefaultRouter
 
 from booking.views import BookingViewSet
 from flight.views import FlightViewSet
-from locking.views import TransactionViewSet
+from locking.views import TransactionViewSet, LockViewSet
 
 # Initialize the router
 router = DefaultRouter()
 router.register(r'flights', FlightViewSet)
 router.register(r'bookings', BookingViewSet)
-router.register(r'transactions', TransactionViewSet)
+router.register(r'transactions', TransactionViewSet, basename='transaction')
+router.register(r'locks', LockViewSet, basename='lock')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
