@@ -1,19 +1,20 @@
 from django.db import models
 
 class Flight(models.Model):
-    flight_number = models.CharField(max_length=10, unique=True)
+    flight_number = models.CharField(max_length=10)
+    departure_city = models.CharField(max_length=100)
+    arrival_city = models.CharField(max_length=100)
     departure_time = models.DateTimeField()
-    available_seats = models.IntegerField()
+    arrival_time = models.DateTimeField()
 
     def __str__(self):
-        return self.flight_number
-    
+        return f"{self.flight_number} from {self.departure_city} to {self.arrival_city}"
 
 class Seat(models.Model):
     flight = models.ForeignKey(Flight, related_name='seats', on_delete=models.CASCADE)
     seat_number = models.CharField(max_length=5)
-    class_type = models.CharField(max_length=10, choices=[('Economy', 'Economy'), ('Business', 'Business')], default='Economy')
-    is_available = models.BooleanField(default=True)
+    is_locked = models.BooleanField(default=False)
+    is_booked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Seat {self.seat_number} on Flight {self.flight.flight_number}"
+        return f"{self.seat_number} on flight {self.flight.flight_number}"
